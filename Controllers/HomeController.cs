@@ -50,8 +50,32 @@ namespace TeamTaskManagment.Controllers
                 
                 ViewBag.page = pageNumber;
                 ViewBag.pages = pages;
+
+                int leftPage;
+                if((pageNumber - 1) < 1)
+                {
+                    leftPage = 1;
+                }
+                else
+                {
+                    leftPage = pageNumber - 1;
+                }
+                ViewBag.leftPage = leftPage;
+
+                int rightPage;
+                if(pageNumber >= pages)
+                {
+                    rightPage = pages;
+                }
+                else
+                {
+                    rightPage = pageNumber + 1;
+                }
+                ViewBag.rightPage = rightPage;
+
+
             }
-                return View();
+            return View();
         }
 
         //[Route("")]

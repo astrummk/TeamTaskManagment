@@ -10,11 +10,6 @@
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
-
-<div>
-    <input type="button" value="Add new Task" onclick="location.href='@Url.Action("Index", "Taskv", new { a = "a"})'" />
 </div>
 
 <div>
@@ -26,7 +21,7 @@
                 <th scope="col">Task Title</th>
                 <th scope="col">Task Description</th>
                 <th scope="col">Task Due Date</th>
-                <th scope="col"></th>
+                <th scope="col"><input type="button" value="Add new Task" onclick="location.href='@Url.Action("Index", "Taskv", new { a = "a"})'" /></th>
             </tr>
         </thead>
         <tbody>
@@ -55,7 +50,7 @@
     <nav aria-label="Page navigation example">
         <ul class="pagination pagination-sm">
             <li class="page-item">
-                <a class="page-link" asp-controller="Home" asp-action="Index" asp-route-p="-1">
+                <a class="page-link" asp-controller="Home" asp-action="Index" asp-route-p="@ViewBag.leftPage">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
@@ -75,7 +70,7 @@
                 <a class="page-link" asp-controller="Home" asp-action="Index" asp-route-p="@pa">@pa</a></li>
             }
             <li class="page-item">
-                <a class="page-link" asp-controller="Home" asp-action="Index" asp-route-p="1">
+                <a class="page-link" asp-controller="Home" asp-action="Index" asp-route-p="@ViewBag.rightPage">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>
