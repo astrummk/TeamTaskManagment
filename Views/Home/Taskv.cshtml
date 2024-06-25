@@ -1,0 +1,68 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    IEnumerable<Category> cate = ViewData["cat"] as IEnumerable<Category>;
+    IEnumerable<Status> stat = ViewData["sta"] as IEnumerable<Status>;
+}
+
+<p> Add new Task</p>
+
+
+<form asp-controller="Home" asp-action="Taskv" method="post">
+    
+    <div class="form-group col-md-6">
+        <label for="inputAddress">Task Name</label>
+        <input type="text" class="form-control" id="txtTaskName" name="txtTaskName" placeholder="">
+    </div>
+    <div class="form-group col-md-2">
+        <label for="inputAddress2">Task Due Date</label>
+        <input type="date" class="form-control" id="taskDueDate" name="datTaskDueDate">
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-4">
+            <label for="inputState">CategoryID</label>
+            <select id="inputState" class="form-control" name="selCategory">
+                <option value="0" selected>Choose...</option>
+                @foreach (Category po in cate)
+                {
+                    <option value="">@Html.DisplayFor(modelItem => po.CategoryName)</option>
+                }
+            </select>
+        </div>
+        <div class="form-group col-md-4">
+            <label for="inputState">StatusID</label>
+            <select id="inputState" class="form-control" name="selStatus">
+                <option value="0" selected>Choose...</option>
+                @foreach (Status po in stat)
+                {
+                    <option>@Html.DisplayFor(modelItem => po.StatusName)</option>
+                }
+            </select>
+        </div>
+        <div class="form-group col-md-2">
+            <label for="inputZip">taskDescription</label>
+            <input type="text" class="form-control" id="inputZip" name="txtTaskDescription">
+        </div>
+    </div>
+    @{
+        if (ViewBag.But == "Add New")
+        {
+            <button onclick="location.href='@Url.Action("AddNew", "Home", new { a = "n", i="" })'">@ViewBag.But</button>
+        }
+        if (ViewBag.But == "Edit")
+        {
+            <button onclick="location.href='@Url.Action("Edit", "Home", new { a = "n", i="" })'">@ViewBag.But</button>
+        }
+        if (ViewBag.But == "Delete")
+        {
+            <button onclick="location.href='@Url.Action("Delete", "Home", new { a = "n", i="" })'">@ViewBag.But</button>
+        }
+    }
+   
+    
+</form>
+
+<p></p>
+
+<a asp-controller="Home" asp-action="Index">Back</a>

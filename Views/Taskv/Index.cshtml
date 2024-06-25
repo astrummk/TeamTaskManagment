@@ -1,0 +1,107 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    IEnumerable<Category> cate = ViewData["cat"] as IEnumerable<Category>;
+    IEnumerable<Status> stat = ViewData["sta"] as IEnumerable<Status>;
+
+    IEnumerable<Taskd> fd = ViewData["fdat"] as IEnumerable<Taskd>;
+
+    string taskName = "", taskDescription = "";
+    string da;
+    Guid taskID = Guid.Empty;
+    int categoryId = 0, statusId = 0;
+
+    if (fd != null)
+    {
+        var fdat = fd.FirstOrDefault();
+        DateTime date = fdat.TaskDueDate;
+
+        da = TeamTaskManagment.Controllers.TaskvController.DateFormat(date);
+
+        taskName = fdat.TaskName;
+        categoryId = fdat.CategoryId;
+        statusId = fdat.StatusId;
+        taskDescription = @fdat.TaskDescription;
+        taskID = @fdat.TaskId;
+        
+    }
+    else
+    {
+        da = TeamTaskManagment.Controllers.TaskvController.DateFormat(DateTime.Now);
+    }
+
+}
+
+<p>  TASK V</p>
+
+
+<form asp-controller="Taskv" asp-action="@ViewBag.But" method="post">
+
+    <div class="form-group col-md-6">
+        <label for="inputAddress">Task Name</label>
+        <input type="text" class="form-control" id="txtTaskName" name="txtTaskName" placeholder="" value="@taskName">
+    </div>
+    <div class="form-group col-md-2">
+        <label for="inputAddress2">Task Due Date</label>
+        <input type="date" class="form-control" id="taskDueDate" name="datTaskDueDate" value="@da">
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-4">
+            <label for="inputState">CategoryID</label>
+            <select id="selCategory" class="form-control" name="selCategory">
+                <option value="0" selected>Choose...</option>
+                @foreach (Category ca in cate)
+                {
+                    <!option value="@ca.CategoryId.ToString()" @{
+                        if (ca.CategoryId == categoryId)
+                        {
+                            <text>selected="selected"</text>
+                        }
+                    } >@Html.DisplayFor(modelItem => ca.CategoryName)</!option>
+                }
+            </select>
+        </div>
+        <div class="form-group col-md-4">
+            <label for="inputState">StatusID</label>
+            <select id="selStatus" class="form-control" name="selStatus">
+                <option value="0" selected>Choose...</option>
+                @foreach (Status st in stat)
+                {
+                    <!option value="@st.StatusId.ToString()" @{
+                        if (st.StatusId == statusId)
+                        {
+                            <text>selected="selected"</text>
+                        }
+                    } >@Html.DisplayFor(modelItem => st.StatusName)</!option>
+                }
+            </select>
+        </div>
+        <div class="form-group col-md-2">
+            <label for="inputZip">taskDescription</label>
+            <input type="text" class="form-control" id="inputZip" name="txtTaskDescription" value="@taskDescription">
+            <input name="tGu" type="hidden" value="@taskID" />
+        </div>
+    </div>
+    <br />
+    @{
+
+        if (ViewBag.But == "AddNew")
+        {
+            <input type="submit" class="btn btn-light" value="Add New" />
+        }
+        if (ViewBag.But == "Edit")
+        {
+            <input type="submit" class="btn btn-light" value="Edit" />
+        }
+        if (ViewBag.But == "Delete")
+        {
+            <input type="submit" class="btn btn-light" value="Delete" />
+        }
+    }
+
+</form>
+
+<p></p>
+
+<a asp-controller="Home" asp-action="Index">Back</a>

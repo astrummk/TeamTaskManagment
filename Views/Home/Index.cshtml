@@ -1,0 +1,55 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    IEnumerable<Taskd> taskovi = ViewData["Poracka"] as IEnumerable<Taskd>;
+    int i = 1;
+
+    //Call from razor page controller method
+    //string ab = TeamTaskManagment.Controllers.TaskvController.DateFormat(po.TaskDueDate);
+    
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+<div>
+    <input type="button" value="Add new Task" onclick="location.href='@Url.Action("Index", "Taskv", new { a = "a"})'" />
+</div>
+
+<div>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Task Title</th>
+                <th scope="col">Task Description</th>
+                <th scope="col">Task Due Date</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (Taskd po in taskovi)
+            {
+                string da = po.TaskDueDate.ToString("dd-MM-yyyy");
+                
+                <tr>
+                    <th scope="row">@i.ToString()</th>
+                    <td>@Html.DisplayFor(modelItem => po.TaskName)</td>
+                    <td>@Html.DisplayFor(modelItem =>  po.TaskDescription)</td>
+                    <td>@da</td>
+                    <td>
+                        <button onclick="location.href='@Url.Action("Index", "Taskv", new { a = "e", id = @po.TaskId.ToString() })'">Edit</button>
+                        <button onclick="location.href='@Url.Action("Index", "Taskv", new { a = "d", id = @po.TaskId.ToString() })'">Delete</button>
+                    </td>
+            </tr>
+               
+             ++i;
+            }
+            
+        </tbody>
+    </table>
+
+</div>
