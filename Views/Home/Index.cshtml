@@ -52,4 +52,34 @@
         </tbody>
     </table>
 
+    <nav aria-label="Page navigation example">
+        <ul class="pagination pagination-sm">
+            <li class="page-item">
+                <a class="page-link" asp-controller="Home" asp-action="Index" asp-route-p="-1">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            @for (int pa = 1; pa <= ViewBag.pages; pa++)
+            {
+                <li 
+                @{
+                    if (pa == ViewBag.page)
+                    {
+                        <text>class="page-item active"</text>
+                    }
+                    else
+                    {
+                        <text>class="page-item"</text>
+                    }
+                }>
+                <a class="page-link" asp-controller="Home" asp-action="Index" asp-route-p="@pa">@pa</a></li>
+            }
+            <li class="page-item">
+                <a class="page-link" asp-controller="Home" asp-action="Index" asp-route-p="1">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
 </div>

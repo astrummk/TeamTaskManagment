@@ -31,6 +31,12 @@ public partial class TeamTaskManDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Taskd>(entity =>
+        {
+            entity.Property(e => e.TaskId).HasDefaultValueSql("(newid())");
+            entity.Property(e => e.TaskIntId).ValueGeneratedOnAdd();
+        });
+
         modelBuilder.Entity<User>(entity =>
         {
             entity.HasKey(e => e.UserId).IsClustered(false);

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using TeamTaskManagment.Models;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -15,17 +16,40 @@ namespace TeamTaskManagment.Controllers
         }
 
         
-        public IActionResult Index()
+        public IActionResult Index(int p)
         {
+            if(p == 0)
+            {
+                p = 1;
+            }
+
+           
+
             using (var context = new TeamTaskManDbContext())
             {
                 List<Taskd> taskdLokal = new List<Taskd>();
+                var pageNumber = p;
+                var pageSize = 4;
 
-                var taskdLokal2 = context.Taskds.ToList();
+                var taskdLokal2 = context.Taskds.OrderByDescending(t => t.TaskIntId).ToList();
+
+                var count = taskdLokal2.Count();
+
+                int pages = 1;
+                pages = (count / pageSize) + 1 ;
+                
+                 taskdLokal2 = context.Taskds
+                    .OrderBy(p => p.TaskIntId)
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToList();
+
 
                 taskdLokal = taskdLokal2;
                 ViewData["Poracka"] = taskdLokal;
-
+                
+                ViewBag.page = pageNumber;
+                ViewBag.pages = pages;
             }
                 return View();
         }
@@ -158,41 +182,6 @@ namespace TeamTaskManagment.Controllers
                     context.SaveChanges();
                 }
             }
-
-            //switch (a)
-            //{
-            //    case "e":
-            //        //Edit
-
-            //        //string taskName, taskDueDate;
-            //        ////gud = HttpContext.Request.Form["txtGuid"].ToString();
-            //        //taskName = HttpContext.Request.Form["txtTaskName"].ToString();
-            //        //taskDueDate = HttpContext.Request.Form["taskDueDate"].ToString();
-
-
-            //        ViewBag.But = "Edit";
-            //        break;
-            //    case "d":
-            //        using (var context = new TeamTaskManDbContext())
-            //        {
-            //            var tsk1 = new Taskd() { TaskName = "1st Grade" };
-            //            context.Taskds.Add(tsk1);
-            //            context.SaveChanges();
-            //        }
-            //        ViewBag.But = "Delete";
-            //        break;
-
-            //    case "n":
-
-
-            //        break;
-
-            //    default:
-            //        ViewBag.But = "Add New";
-            //        break;
-            //}
-
-
 
             return View();
         }

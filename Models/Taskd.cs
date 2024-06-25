@@ -29,4 +29,8 @@ public partial class Taskd
     [Column("taskDescription")]
     [StringLength(550)]
     public string? TaskDescription { get; set; }
+
+    //[DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
+    [Column("taskIntID")]
+    public int? TaskIntId { get; set; }
 }
